@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import supabase from "../../lib/supabase";
+import { Skeleton } from "../../components/ui/skeleton";
 
 // Define the Project type
 interface Project {
@@ -51,9 +52,17 @@ export function ProjectDetail() {
 
   if (loading) {
     return (
-      <div className="container mx-auto px-4 py-8 [font-family:'Rethink_Sans',Helvetica]">
-        <div className="flex items-center justify-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+      <div className="w-full space-y-12">
+        <Skeleton className="h-6 w-1/4" />
+        <Skeleton className=" w-full h-[650px] rounded-3xl" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full">
+          <div className="min-h-[360px] p-6 space-y-4 bg-gray-50 rounded-2xl">
+            <Skeleton className="h-6 w-3/4" />
+            <Skeleton className="h-6 w-1/4 ml-auto" />
+            <Skeleton className="h-32 w-full" />
+            <Skeleton className="h-4 w-1/2" />
+            <Skeleton className="h-10 w-10 rounded-full ml-auto" />
+          </div>
         </div>
       </div>
     );

@@ -2,13 +2,27 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+import { Skeleton } from "../../components/ui/skeleton";
 import { ArrowRightIcon } from "lucide-react";
 import { fetchProjects } from "../../lib/supabase";
 
 export const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchProjects().then(setProjects);
+    const loadProjects = async () => {
+      setLoading(true); // Start loading
+      try {
+        const data = await fetchProjects();
+        setProjects(data);
+      } catch (error) {
+        console.error("Failed to fetch projects:", error);
+      } finally {
+        setLoading(false); // Stop loading (whether success or error)
+      }
+    };
+
+    loadProjects();
   }, []);
 
   const navigate = useNavigate();
@@ -16,6 +30,28 @@ export const Projects = (): JSX.Element => {
   const navigateToProject = (projectId: string) => {
     navigate(`/projects/${projectId}`);
   };
+
+  if (loading) {
+    return (
+      <div className="w-full space-y-12">
+        <Skeleton className="h-6 w-1/4" />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full">
+          {[...Array(4)].map((_, index) => (
+            <div
+              key={index}
+              className="min-h-[360px] p-6 space-y-4 bg-gray-50 rounded-2xl"
+            >
+              <Skeleton className="h-6 w-3/4" />
+              <Skeleton className="h-6 w-1/4 ml-auto" />
+              <Skeleton className="h-32 w-full" />
+              <Skeleton className="h-4 w-1/2" />
+              <Skeleton className="h-10 w-10 rounded-full ml-auto" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <main>
