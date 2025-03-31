@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
+
 import {
   ArrowRightIcon,
   ChevronLeftIcon,
@@ -21,7 +22,20 @@ export const Homepage = (): JSX.Element => {
   const navigateToProject = (projectId: string) => {
     navigate(`/projects/${projectId}`);
   };
+  const scrollRef = useRef<HTMLDivElement>(null);
 
+  interface ScrollDirection {
+    direction: "left" | "right";
+  }
+
+  const scroll = (direction: ScrollDirection["direction"]): void => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -360 : 360, // Adjust based on slide width
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <main>
       {/* Hero Section */}
@@ -125,31 +139,53 @@ export const Homepage = (): JSX.Element => {
           ))}
         </div>
       </section>
-      <div className="flex  items-center justify-between gap-1 mt-12 [font-family:'Rethink_Sans',Helvetica]">
-        <div className="gap-1">
-          <h2 className="font-semibold text-neutral-950 text-lg">Highlights</h2>
-          <p className=" font-normal text-neutral-500 text-base">
-            My creative explorations
-          </p>
+      <div className="flex flex-col items-start mt-12 [font-family:'Rethink_Sans',Helvetica]">
+        {/* Header */}
+        <div className="flex items-center justify-between w-full gap-1">
+          <div className="gap-1">
+            <h2 className="font-semibold text-neutral-950 text-lg">
+              Highlights
+            </h2>
+            <p className="font-normal text-neutral-500 text-base">
+              My creative explorations
+            </p>
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full border-neutral-200"
+              onClick={() => scroll("left")}
+            >
+              <ChevronLeftIcon className="h-5 w-5" />
+              <span className="sr-only">Previous</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              className="rounded-full border-neutral-200"
+              onClick={() => scroll("right")}
+            >
+              <ChevronRightIcon className="h-5 w-5" />
+              <span className="sr-only">Next</span>
+            </Button>
+          </div>
         </div>
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full border-neutral-200"
+        {/* Carousel Container */}
+        <div className="relative w-[392px] md:w-[624px] lg:w-[840px] mt-6">
+          <div
+            ref={scrollRef}
+            className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory  scrollbar-hide"
           >
-            <ChevronLeftIcon className="h-5 w-5" />
-            <span className="sr-only">Previous</span>
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full border-neutral-200"
-          >
-            <ChevronRightIcon className="h-5 w-5" />
-            <span className="sr-only">Next</span>
-          </Button>
+            {/* Carousel Items */}
+            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
+            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
+            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
+            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
+          </div>
         </div>
       </div>
     </main>
