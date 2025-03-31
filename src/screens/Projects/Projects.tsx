@@ -7,8 +7,17 @@ import { fetchProjects } from "../../lib/supabase";
 
 export const Projects = (): JSX.Element => {
   const [projects, setProjects] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
-    fetchProjects().then(setProjects);
+    fetchProjects()
+      .then((data) => {
+        setProjects(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
+        setLoading(false); // Set loading to false in case of error
+      });
   }, []);
 
   const navigate = useNavigate();
@@ -16,6 +25,24 @@ export const Projects = (): JSX.Element => {
   const navigateToProject = (projectId: string) => {
     navigate(`/projects/${projectId}`);
   };
+
+  if (loading) {
+    return (
+      <div className="container mx-auto px-4 py-8 [font-family:'Rethink_Sans',Helvetica]">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!projects) {
+    return (
+      <div className="container mx-auto px-4 py-8 [font-family:'Rethink_Sans',Helvetica]">
+        <h1 className="text-2xl font-bold">Project not found</h1>
+      </div>
+    );
+  }
 
   return (
     <main>

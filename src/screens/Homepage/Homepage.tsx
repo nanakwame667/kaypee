@@ -2,7 +2,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
-import { ArrowRightIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from "lucide-react";
 
 import { fetchProjects } from "../../lib/supabase";
 
@@ -121,6 +125,33 @@ export const Homepage = (): JSX.Element => {
           ))}
         </div>
       </section>
+      <div className="flex  items-center justify-between gap-1 mt-12 [font-family:'Rethink_Sans',Helvetica]">
+        <div className="gap-1">
+          <h2 className="font-semibold text-neutral-950 text-lg">Highlights</h2>
+          <p className=" font-normal text-neutral-500 text-base">
+            My creative explorations
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full border-neutral-200"
+          >
+            <ChevronLeftIcon className="h-5 w-5" />
+            <span className="sr-only">Previous</span>
+          </Button>
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full border-neutral-200"
+          >
+            <ChevronRightIcon className="h-5 w-5" />
+            <span className="sr-only">Next</span>
+          </Button>
+        </div>
+      </div>
     </main>
   );
 };
