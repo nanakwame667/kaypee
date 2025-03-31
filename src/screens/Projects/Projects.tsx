@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigation } from "../../components/Navigation";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
@@ -54,7 +53,7 @@ export const Projects = (): JSX.Element => {
       accentColor: "bg-[#C7C1F4]",
       iconBg: "bg-white",
       backgroundIcon: "/hubtel-icon-black.svg",
-    }
+    },
   ];
 
   return (
@@ -63,7 +62,7 @@ export const Projects = (): JSX.Element => {
 
       <div className="flex flex-col items-start gap-6 md:gap-8 relative self-stretch w-full">
         <div className="flex items-center gap-2.5 relative w-full">
-          <h1 className="relative w-fit font-rage text-black text-5xl md:text-[80px] leading-normal">
+          <h1 className="relative w-fit font-rage text-black text-4xl md:text-[60px] leading-normal">
             Projects
           </h1>
         </div>

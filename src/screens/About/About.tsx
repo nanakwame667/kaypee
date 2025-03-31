@@ -191,7 +191,13 @@ export const About = (): JSX.Element => {
             ))}
           </div>
         </section>
-
+        {/* <div className="absolute w-[313px] h-[338px] top-[155px] left-[205px] opacity-5">
+                <img
+                  className="absolute w-[212px] h-72 top-0 left-0"
+                  alt="Hubtel icon"
+                  src={project.background_icon}
+                />
+              </div> */}
         {/* Experience Section */}
         <section className="flex flex-col gap-4 relative self-stretch">
           <h2 className="[font-family:'Rethink_Sans',Helvetica] font-medium text-neutral-950 text-lg">
