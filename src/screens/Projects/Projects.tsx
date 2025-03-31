@@ -1,8 +1,6 @@
-import { Navigation } from "../../components/Navigation";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
-import { Footer } from "../../components/Footer";
 
 export const Projects = (): JSX.Element => {
   const projects = [
@@ -57,9 +55,7 @@ export const Projects = (): JSX.Element => {
   ];
 
   return (
-    <main className="flex flex-col items-center gap-6 md:gap-12 px-4 md:px-12 lg:px-[120px] xl:px-[300px] max-w-[1440px] mx-auto py-6 md:py-12 relative bg-white">
-      <Navigation />
-
+    <main>
       <div className="flex flex-col items-start gap-6 md:gap-8 relative self-stretch w-full">
         <div className="flex items-center gap-2.5 relative w-full">
           <h1 className="relative w-fit font-rage text-black text-4xl md:text-[60px] leading-normal">
@@ -133,8 +129,6 @@ export const Projects = (): JSX.Element => {
             </Card>
           ))}
         </div>
-
-        <Footer />
       </div>
     </main>
   );

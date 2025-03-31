@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Navigation } from "../../components/Navigation";
+import { Header } from "../../components/Navigation";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
@@ -11,51 +11,10 @@ export const Homepage = (): JSX.Element => {
   useEffect(() => {
     fetchProjects().then(setProjects);
   }, []);
-  // const projects = [
-  //   {
-  //     title: "Zones Backoffice",
-  //     logo: "/logo-hbt-secondary.svg",
-  //     description:
-  //       "Zones Backoffice is a portal that help businesses manage their inventory, help them manage their employees and merchants they work with. Order Performance can be tracked, relationship between the business and it's merchants are fostered properly promoting profit maximization",
-  //     role: "Lead UX Designer",
-  //     bgColor: "bg-[#ade4d780]",
-  //     textColor: "text-[#003737]",
-  //     accentColor: "bg-[#009f9f]",
-  //     iconBg: "bg-white",
-  //     backgroundIcon: "/hubtel-icon-black.svg",
-  //     size: "large",
-  //   },
-  //   {
-  //     title: "Hubtel Sales",
-  //     logo: "/hubtel-sales.svg",
-  //     description:
-  //       "Hubtel Sales connects you with a wider audience. By offering delivery through our app, you can tap into a new customer base and boost your business.",
-  //     role: "Lead UX Designer",
-  //     bgColor: "bg-[#524b8f]",
-  //     textColor: "text-white",
-  //     accentColor: "bg-[#c6c1f4]",
-  //     iconBg: "bg-white",
-  //     backgroundIcon: "/hubtel-icon-black.svg",
-  //     size: "small",
-  //   },
-  //   {
-  //     title: "Denis Pizza",
-  //     logo: "/lucide-pizza.svg",
-  //     description:
-  //       "Denis Pizza is a restaurant app that was designed to ensure that customers do not go through the struggle of having to be in long queues just get a meal.",
-  //     role: "Lead UX Designer",
-  //     bgColor: "bg-[#ffd8c3]",
-  //     textColor: "text-[#a40802]",
-  //     accentColor: "bg-[#ff7c7c]",
-  //     iconBg: "bg-white",
-  //     backgroundIcon: "/lucide-pizza-1.svg",
-  //     size: "small",
-  //   },
-  // ];
 
   return (
-    <main className="flex flex-col items-center gap-6 md:gap-12 px-4 md:px-12 lg:px-[120px] xl:px-[300px] max-w-[1440px] mx-auto py-6 md:py-12 relative bg-white">
-      <Navigation />
+    <main>
+      {/* <Navigation /> */}
 
       {/* Hero Section */}
       <section className="flex flex-col items-center gap-6 px-0 md:px-4 py-6 relative self-stretch w-full">
@@ -84,13 +43,13 @@ export const Homepage = (): JSX.Element => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full ">
           {/* Main Project Card */}
-          {projects.map((project, index) => (
+          {projects.slice(0, 2).map((project, index) => (
             <Card
               key={index}
               style={{ backgroundColor: project.bg_color }}
-              className={`flex flex-col items-start gap-4 md:gap-6 p-4 md:p-6 relative  rounded-3xl overflow-hidden w-full min-h-[360px] border-none shadow-none`}
+              className={`flex flex-col items-start gap-4 md:gap-6 p-4 md:p-6 relative  rounded-3xl overflow-hidden w-full  min-h-[360px] border-none shadow-none`}
             >
               <div className="flex items-center justify-between gap-4  w-full">
                 <h3
@@ -154,7 +113,7 @@ export const Homepage = (): JSX.Element => {
         </div>
       </section>
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 };

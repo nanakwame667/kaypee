@@ -1,5 +1,3 @@
-import { Navigation } from "../../components/Navigation";
-import { Footer } from "../../components/Footer";
 import { Badge } from "../../components/ui/badge";
 
 export const About = (): JSX.Element => {
@@ -101,10 +99,8 @@ export const About = (): JSX.Element => {
   ];
 
   return (
-    <main className="flex flex-col items-center gap-6 md:gap-12 px-4 md:px-12 lg:px-[120px] xl:px-[300px] max-w-[1440px] mx-auto py-6 md:py-12 relative bg-white">
-      <Navigation />
-
-      <div className="flex flex-col items-start gap-12 relative self-stretch w-full">
+    <main className="w-full">
+      <div className="flex flex-col items-start gap-12 relative  w-full">
         {/* Hero Section */}
         <section className="flex flex-col items-center gap-6 relative self-stretch">
           <h1 className="font-rage text-black text-5xl md:text-[80px] leading-normal text-center">
@@ -123,7 +119,7 @@ export const About = (): JSX.Element => {
         </section>
 
         {/* Gallery Section */}
-        <section className="flex flex-col gap-4 relative self-stretch">
+        <section className="flex flex-col gap-4 relative w-full ">
           <h2 className="[font-family:'Rethink_Sans',Helvetica] font-medium text-neutral-950 text-lg">
             Gallery
           </h2>
@@ -264,8 +260,6 @@ export const About = (): JSX.Element => {
             </div>
           ))}
         </section>
-
-        <Footer />
       </div>
     </main>
   );
