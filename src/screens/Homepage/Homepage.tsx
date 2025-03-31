@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { Header } from "../../components/Navigation";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardFooter } from "../../components/ui/card";
 import { Button } from "../../components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
-import { Footer } from "../../components/Footer";
+
 import { fetchProjects } from "../../lib/supabase";
 
 export const Homepage = (): JSX.Element => {
@@ -12,10 +12,14 @@ export const Homepage = (): JSX.Element => {
     fetchProjects().then(setProjects);
   }, []);
 
+  const navigate = useNavigate();
+
+  const navigateToProject = (projectId: string) => {
+    navigate(`/projects/${projectId}`);
+  };
+
   return (
     <main>
-      {/* <Navigation /> */}
-
       {/* Hero Section */}
       <section className="flex flex-col items-center gap-6 px-0 md:px-4 py-6 relative self-stretch w-full">
         <h1 className="relative w-fit font-rage font-normal text-black text-5xl md:text-[80px] leading-normal">
@@ -103,6 +107,7 @@ export const Homepage = (): JSX.Element => {
                     size="icon"
                     style={{ backgroundColor: project.icon_bg }}
                     className={`p-2  rounded-full`}
+                    onClick={() => navigateToProject(project.id)}
                   >
                     <ArrowRightIcon className="w-6 h-6" />
                   </Button>
@@ -112,8 +117,6 @@ export const Homepage = (): JSX.Element => {
           ))}
         </div>
       </section>
-
-      {/* <Footer /> */}
     </main>
   );
 };
