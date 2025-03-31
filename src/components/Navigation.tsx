@@ -24,7 +24,7 @@ export const Header = () => {
   ];
 
   return (
-    <nav className="flex flex-col md:flex-row md:items-center gap-4 md:gap-20 p-4 md:p-2 relative w-full max-w-full bg-[#f7f7f7] rounded-[32px] md:rounded-[1000px] overflow-hidden border border-solid border-[#efefef]">
+    <nav className="sticky top-[20px] z-50 mt-[20px] mx-4 flex flex-col md:flex-row md:items-center gap-4 md:gap-20 p-4 md:p-2 w-[calc(100%-32px)] max-w-full bg-[#f7f7f7]/80 backdrop-blur-sm rounded-[32px] md:rounded-[1000px] overflow-hidden border border-solid border-[#efefef] transition-all duration-300 hover:scale-[1.01]">
       <div className="flex items-center justify-between relative w-full md:w-auto">
         <div className="flex items-center gap-2">
           <Avatar className="w-10 h-10">
@@ -51,7 +51,7 @@ export const Header = () => {
       <div
         className={`${
           isMenuOpen ? "flex" : "hidden"
-        } md:flex flex-col md:flex-row items-start md:items-center gap-4 relative flex-1 md:justify-end`}
+        } md:flex flex-col md:flex-row items-start md:items-center gap-4 relative flex-1 md:justify-end transition-all duration-300 ease-in-out`}
       >
         <div className="flex flex-col md:flex-row items-start md:items-center gap-2 md:gap-4 relative w-full md:w-auto">
           {navItems.map((item, index) => (
