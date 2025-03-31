@@ -28,7 +28,7 @@ export const Header = () => {
       <div className="flex items-center justify-between relative w-full md:w-auto">
         <div className="flex items-center gap-2">
           <Avatar className="w-10 h-10">
-            <AvatarImage src="/portrait.png" alt="Kaypee" />
+            <AvatarImage src="/emoji.svg" alt="Kaypee" />
           </Avatar>
           <span className="relative w-fit [font-family:'Rethink_Sans',Helvetica] font-medium text-black text-lg">
             Kaypee

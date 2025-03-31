@@ -8,47 +8,51 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "lucide-react";
-
 import { fetchProjects, fetchHighlights } from "../../lib/supabase";
 import { Skeleton } from "../../components/ui/skeleton";
+
+// Optimized image helper
+const getOptimizedImage = (path: string, width = 400) => {
+  return `https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${path}?width=${width}&quality=80`;
+};
 
 export const Homepage = (): JSX.Element => {
   const [projects, setProjects] = useState<any[]>([]);
   const [highlights, setHighlights] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const loadProjects = async () => {
-      setLoading(true); // Start loading
+    const loadData = async () => {
+      setLoading(true);
       try {
-        const data = await fetchProjects();
-        setProjects(data);
+        // Fetch both datasets in parallel
+        const [projectsData, highlightsData] = await Promise.all([
+          fetchProjects(),
+          fetchHighlights(),
+        ]);
+
+        setProjects(projectsData);
+        setHighlights(highlightsData);
       } catch (error) {
-        console.error("Failed to fetch projects:", error);
+        console.error("Failed to fetch data:", error);
       } finally {
-        setLoading(false); // Stop loading (whether success or error)
+        setLoading(false);
       }
     };
 
-    loadProjects();
+    loadData();
   }, []);
-  useEffect(() => {
-    fetchHighlights().then(setHighlights);
-  }, []);
-  const navigate = useNavigate();
 
   const navigateToProject = (projectId: string) => {
     navigate(`/projects/${projectId}`);
   };
-  const scrollRef = useRef<HTMLDivElement>(null);
 
-  interface ScrollDirection {
-    direction: "left" | "right";
-  }
-
-  const scroll = (direction: ScrollDirection["direction"]): void => {
+  const scroll = (direction: "left" | "right"): void => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({
-        left: direction === "left" ? -360 : 360, // Adjust based on slide width
+        left: direction === "left" ? -360 : 360,
         behavior: "smooth",
       });
     }
@@ -56,25 +60,41 @@ export const Homepage = (): JSX.Element => {
 
   if (loading) {
     return (
-      <div className="w-full space-y-12">
-        <Skeleton className="h-6 w-1/4" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full">
-          {[...Array(4)].map((_, index) => (
-            <div
-              key={index}
-              className="min-h-[360px] p-6 space-y-4 bg-gray-50 rounded-2xl"
-            >
-              <Skeleton className="h-6 w-3/4" />
-              <Skeleton className="h-6 w-1/4 ml-auto" />
-              <Skeleton className="h-32 w-full" />
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-10 w-10 rounded-full ml-auto" />
+      <div className="w-full space-y-12 animate-pulse">
+        {/* Hero Section Skeleton */}
+        <div className="flex flex-col items-center gap-6">
+          <Skeleton className="h-20 w-64 rounded-xl" />
+          <Skeleton className="h-24 w-full max-w-2xl" />
+        </div>
+
+        {/* Projects Skeleton */}
+        <div className="space-y-4">
+          <Skeleton className="h-6 w-48" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {[...Array(2)].map((_, i) => (
+              <Skeleton key={i} className="h-96 rounded-3xl" />
+            ))}
+          </div>
+        </div>
+
+        {/* Highlights Skeleton */}
+        <div className="space-y-4">
+          <div className="flex justify-between">
+            <div>
+              <Skeleton className="h-6 w-32" />
+              <Skeleton className="h-4 w-48 mt-2" />
             </div>
-          ))}
+            <div className="flex gap-2">
+              <Skeleton className="h-10 w-10 rounded-full" />
+              <Skeleton className="h-10 w-10 rounded-full" />
+            </div>
+          </div>
+          <Skeleton className="h-80 w-full rounded-3xl" />
         </div>
       </div>
     );
   }
+
   return (
     <main>
       {/* Hero Section */}
@@ -104,14 +124,13 @@ export const Homepage = (): JSX.Element => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full ">
-          {/* Main Project Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 w-full">
           {projects.slice(0, 2).map((project, index) => (
             <motion.div
               key={index}
               whileHover={{
-                rotateY: 8, // Tilt left/right
-                rotateX: -8, // Tilt up/down
+                rotateY: 8,
+                rotateX: -8,
                 scale: 1.05,
                 transition: {
                   type: "spring",
@@ -121,47 +140,49 @@ export const Homepage = (): JSX.Element => {
                 },
               }}
               style={{
-                transformStyle: "preserve-3d", // Enable 3D transformations
-                perspective: 1000, // Depth of the 3D space
+                transformStyle: "preserve-3d",
+                perspective: 1000,
               }}
               transition={{ type: "spring", stiffness: 400, damping: 10 }}
             >
               <Card
                 style={{ backgroundColor: project.bg_color }}
-                className={`flex flex-col items-start gap-4 md:gap-6 p-4 md:p-6 relative  rounded-3xl overflow-hidden w-full  min-h-[360px] border-none shadow-none`}
+                className="flex flex-col items-start gap-4 md:gap-6 p-4 md:p-6 relative rounded-3xl overflow-hidden w-full min-h-[360px] border-none shadow-none cursor-pointer"
               >
-                <div className="flex items-center justify-between gap-4  w-full">
+                <div className="flex items-center justify-between gap-4 w-full">
                   <h3
                     style={{ color: project.text_color }}
-                    className={`relative flex-1 [font-family:'Rethink_Sans',Helvetica] font-semibold  text-base`}
+                    className="relative flex-1 [font-family:'Rethink_Sans',Helvetica] font-semibold text-base"
                   >
                     {project.title}
                   </h3>
                   <img
-                    className="  "
-                    alt="Logo Hubtel"
-                    src={`https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${project.logo}`}
+                    className=""
+                    alt="Project logo"
+                    src={getOptimizedImage(project.logo, 100)}
+                    loading="lazy"
                   />
                 </div>
 
                 <div className="absolute w-[200px] h-[200px] top-[240px] left-[280px] opacity-5">
                   <img
-                    className="absolute w-[150px]  top-0 left-0"
-                    alt="Hubtel icon"
-                    src={`https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${project.background_icon}`}
+                    className="absolute w-[150px] top-0 left-0"
+                    alt="Background icon"
+                    src={getOptimizedImage(project.background_icon)}
+                    loading="lazy"
                   />
                 </div>
 
                 <CardContent
                   style={{ color: project.text_color }}
-                  className={`p-0  relative self-stretch [font-family:'Rethink_Sans',Helvetica] font-normal text-sm`}
+                  className="p-0 relative self-stretch [font-family:'Rethink_Sans',Helvetica] font-normal text-sm"
                 >
                   {project.description}
                 </CardContent>
 
                 <div
                   style={{ color: project.text_color }}
-                  className={`relative self-stretch [font-family:'Rethink_Sans',Helvetica] font-bold  text-sm`}
+                  className="relative self-stretch [font-family:'Rethink_Sans',Helvetica] font-bold text-sm"
                 >
                   Role: {project.role}
                 </div>
@@ -171,11 +192,11 @@ export const Homepage = (): JSX.Element => {
                     <div className="flex items-center gap-1 relative flex-1">
                       <div
                         style={{ backgroundColor: project.accent_color }}
-                        className={`relative self-stretch w-1  rounded-lg`}
+                        className="relative self-stretch w-1 rounded-lg"
                       />
                       <div
                         style={{ color: project.text_color }}
-                        className={`relative w-fit [font-family:'Rethink_Sans',Helvetica] font-semibold  text-sm`}
+                        className="relative w-fit [font-family:'Rethink_Sans',Helvetica] font-semibold text-sm"
                       >
                         View Case Study
                       </div>
@@ -185,7 +206,7 @@ export const Homepage = (): JSX.Element => {
                       variant="outline"
                       size="icon"
                       style={{ backgroundColor: project.icon_bg }}
-                      className={`p-2  rounded-full`}
+                      className="p-2 rounded-full"
                       onClick={() => navigateToProject(project.id)}
                     >
                       <ArrowRightIcon className="w-6 h-6" />
@@ -197,8 +218,9 @@ export const Homepage = (): JSX.Element => {
           ))}
         </div>
       </section>
+
+      {/* Highlights Section */}
       <div className="flex flex-col items-start mt-12 [font-family:'Rethink_Sans',Helvetica]">
-        {/* Header */}
         <div className="flex items-center justify-between w-full gap-1">
           <div className="gap-1">
             <h2 className="font-semibold text-neutral-950 text-lg">
@@ -209,7 +231,6 @@ export const Homepage = (): JSX.Element => {
             </p>
           </div>
 
-          {/* Navigation Buttons */}
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -232,13 +253,11 @@ export const Homepage = (): JSX.Element => {
           </div>
         </div>
 
-        {/* Carousel Container */}
         <div className="relative w-[392px] md:w-[624px] lg:w-[840px] mt-6">
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory  scrollbar-hide"
+            className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-hide"
           >
-            {/* Carousel Items */}
             {highlights.map((highlight, index) => (
               <div
                 key={index}
@@ -259,9 +278,10 @@ export const Homepage = (): JSX.Element => {
                   {highlight.project_tool}
                 </p>
                 <img
-                  className=" "
-                  alt="Logo Hubtel"
-                  src={`https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${highlight.image}`}
+                  className="w-full h-auto object-contain"
+                  alt="Highlight"
+                  src={getOptimizedImage(highlight.image)}
+                  loading="lazy"
                 />
               </div>
             ))}
