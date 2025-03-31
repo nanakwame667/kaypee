@@ -1,7 +1,7 @@
-import React from "react";
 import { Button } from "./ui/button";
-
+import { useToast } from "../hooks/use-toast";
 export const Footer = () => {
+  const { toast } = useToast();
   const contactInfo = [
     {
       type: "Email",
@@ -18,11 +18,40 @@ export const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: "/logos-github-icon.svg", alt: "GitHub" },
-    { icon: "/clip-path-group.png", alt: "Twitter" },
-    { icon: "/group-1.png", alt: "LinkedIn" },
+    {
+      icon: "/logos-github-icon.svg",
+      alt: "GitHub",
+      link: "https://github.com/nanakwame667",
+    },
+    {
+      icon: "/clip-path-group.png",
+      alt: "Twitter",
+      link: "https://x.com/kwame_piano",
+    },
+    {
+      icon: "/group-1.png",
+      alt: "LinkedIn",
+      link: "www.linkedin.com/in/kwamedarkwafrimpong",
+    },
   ];
-
+  const handleCopy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast({
+      description: (
+        <div className="flex items-center gap-2">
+          <span className="space-x-2">
+            <b>{text}</b> has been copied to clipboard
+            <img
+              src="/smile.svg"
+              alt="smile"
+              className="w-4 h-4 inline-block "
+            />
+            !!
+          </span>
+        </div>
+      ),
+    });
+  };
   return (
     <div className="flex flex-col items-start gap-6 p-4 md:p-6 relative self-stretch w-full bg-neutral-50 rounded-3xl border border-solid border-[#efefef]">
       <h2 className="relative w-fit [font-family:'Rethink_Sans',Helvetica] font-medium text-black text-lg">
@@ -62,7 +91,12 @@ export const Footer = () => {
               </div>
             </div>
 
-            <Button variant="ghost" size="icon" className="p-0">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="p-0 [font-family:'Rethink_Sans',Helvetica]"
+              onClick={() => handleCopy(info.value)}
+            >
               <img className="relative" alt="Copy" src={info.copyIcon} />
             </Button>
           </div>
@@ -76,12 +110,9 @@ export const Footer = () => {
             variant="ghost"
             size="icon"
             className="p-0 h-4 w-4"
+            onClick={() => window.open(link.link, "_blank")}
           >
-            <img
-              className="relative w-4 h-4"
-              alt={link.alt}
-              src={link.icon}
-            />
+            <img className="relative w-4 h-4" alt={link.alt} src={link.icon} />
           </Button>
         ))}
         <div className="relative flex-1 [font-family:'Rethink_Sans',Helvetica] font-normal text-neutral-600 text-sm text-right">

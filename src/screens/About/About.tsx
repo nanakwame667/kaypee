@@ -136,21 +136,20 @@ export const About = (): JSX.Element => {
           {experiences.map((exp, index) => (
             <motion.div
               whileHover={{
-                rotateY: 8, // Tilt left/right
-                rotateX: -8, // Tilt up/down
-                scale: 1.05,
-                transition: {
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 10,
-                  mass: 0.5,
-                },
+                rotateY: 10,
+                rotateX: -5,
+                scale: 1.02,
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 10,
               }}
               style={{
-                transformStyle: "preserve-3d", // Enable 3D transformations
-                perspective: 1000, // Depth of the 3D space
+                transformStyle: "preserve-3d",
+                perspective: 1000,
               }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
               key={index}
               className="flex flex-col gap-6 p-6 bg-[#F7F7F7] rounded-3xl border border-[#EFEFEF]"
             >
@@ -190,21 +189,20 @@ export const About = (): JSX.Element => {
           {education.map((edu, index) => (
             <motion.div
               whileHover={{
-                rotateY: 8, // Tilt left/right
-                rotateX: -8, // Tilt up/down
-                scale: 1.05,
-                transition: {
-                  type: "spring",
-                  stiffness: 300,
-                  damping: 10,
-                  mass: 0.5,
-                },
+                rotateY: 10,
+                rotateX: -5,
+                scale: 1.02,
+                boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
+              }}
+              transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 10,
               }}
               style={{
-                transformStyle: "preserve-3d", // Enable 3D transformations
-                perspective: 1000, // Depth of the 3D space
+                transformStyle: "preserve-3d",
+                perspective: 1000,
               }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
               key={index}
               className="flex flex-col gap-4 p-6 bg-[#F7F7F7] rounded-3xl border border-[#EFEFEF]"
             >

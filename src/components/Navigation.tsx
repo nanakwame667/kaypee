@@ -60,8 +60,8 @@ export const Header = () => {
               variant={item.active ? "default" : "ghost"}
               className={`w-full md:w-auto justify-start md:justify-center p-4 rounded-[1000px] ${
                 item.active
-                  ? "bg-white border border-solid border-[#efefef]"
-                  : "bg-[#f7f7f7]"
+                  ? "bg-white border border-solid border-[#efefef] hover:bg-white"
+                  : "bg-[#f7f7f7] hover:bg-[#eaeaea]"
               }`}
               onClick={() => navigate(item.path)}
             >
