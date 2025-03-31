@@ -62,14 +62,18 @@ export const Homepage = (): JSX.Element => {
                 >
                   {project.title}
                 </h3>
-                <img className="  " alt="Logo Hubtel" src={project.logo} />
+                <img
+                  className="  "
+                  alt="Logo Hubtel"
+                  src={`https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${project.logo}`}
+                />
               </div>
 
               <div className="absolute w-[200px] h-[200px] top-[240px] left-[280px] opacity-5">
                 <img
                   className="absolute w-[150px]  top-0 left-0"
                   alt="Hubtel icon"
-                  src={project.background_icon}
+                  src={`https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${project.background_icon}`}
                 />
               </div>
 
