@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Badge } from "../../components/ui/badge";
 import { fetchEducation, fetchExperiences } from "../../lib/supabase";
+import { motion } from "framer-motion";
 
 export const About = (): JSX.Element => {
   const [education, setEducation] = useState<any[]>([]);
@@ -133,7 +134,23 @@ export const About = (): JSX.Element => {
             Experience
           </h2>
           {experiences.map((exp, index) => (
-            <div
+            <motion.div
+              whileHover={{
+                rotateY: 8, // Tilt left/right
+                rotateX: -8, // Tilt up/down
+                scale: 1.05,
+                transition: {
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 10,
+                  mass: 0.5,
+                },
+              }}
+              style={{
+                transformStyle: "preserve-3d", // Enable 3D transformations
+                perspective: 1000, // Depth of the 3D space
+              }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
               key={index}
               className="flex flex-col gap-6 p-6 bg-[#F7F7F7] rounded-3xl border border-[#EFEFEF]"
             >
@@ -161,7 +178,7 @@ export const About = (): JSX.Element => {
                   exp.works
                 )}
               </p>
-            </div>
+            </motion.div>
           ))}
         </section>
 
@@ -171,7 +188,23 @@ export const About = (): JSX.Element => {
             Education
           </h2>
           {education.map((edu, index) => (
-            <div
+            <motion.div
+              whileHover={{
+                rotateY: 8, // Tilt left/right
+                rotateX: -8, // Tilt up/down
+                scale: 1.05,
+                transition: {
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 10,
+                  mass: 0.5,
+                },
+              }}
+              style={{
+                transformStyle: "preserve-3d", // Enable 3D transformations
+                perspective: 1000, // Depth of the 3D space
+              }}
+              transition={{ type: "spring", stiffness: 400, damping: 10 }}
               key={index}
               className="flex flex-col gap-4 p-6 bg-[#F7F7F7] rounded-3xl border border-[#EFEFEF]"
             >
@@ -191,7 +224,7 @@ export const About = (): JSX.Element => {
               <p className="[font-family:'Rethink_Sans',Helvetica] font-normal text-neutral-700 text-sm">
                 {edu.description}
               </p>
-            </div>
+            </motion.div>
           ))}
         </section>
       </div>
