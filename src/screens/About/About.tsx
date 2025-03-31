@@ -1,6 +1,16 @@
+import { useState, useEffect } from "react";
 import { Badge } from "../../components/ui/badge";
+import { fetchEducation, fetchExperiences } from "../../lib/supabase";
 
 export const About = (): JSX.Element => {
+  const [education, setEducation] = useState<any[]>([]);
+  const [experiences, setExperiences] = useState<any[]>([]);
+  useEffect(() => {
+    fetchEducation().then(setEducation);
+  }, []);
+  useEffect(() => {
+    fetchExperiences().then(setExperiences);
+  }, []);
   const skillsCategories = [
     {
       id: "tools",
@@ -25,76 +35,6 @@ export const About = (): JSX.Element => {
       id: "languages",
       title: "💬 Languages",
       skills: ["English", "Dutch"],
-    },
-  ];
-
-  const experiences = [
-    {
-      role: "Lead UX Designer",
-      company: "Hubtel Limited, Accra - Ghana",
-      period: "March 2021 - December 2023",
-      achievements: [
-        "Created mobile-first, responsive designs for cross-platform compatibility, enhancing user engagement by 30%",
-        "Conducted usability testing to optimize interface design and improve user satisfaction",
-        "Collaborated with marketing teams to develop campaign-specific designs and prototypes",
-        "Analyzed website analytics to guide data-driven design improvements",
-        "Mentored junior designers, enhancing team skills and productivity",
-        "Designed and maintained web interfaces using HTML, CSS, and JavaScript",
-      ],
-    },
-    {
-      role: "Frontend Developer & Product Designer",
-      company: "Orange Verse, Johannesburg, South Africa",
-      period: "March 2021 - December 2023",
-      achievements: [
-        "Designed intuitive navigation structures and user flows, boosting usability by 25%",
-        "Developed interactive prototypes using HTML, CSS, and JavaScript, aligning with user feedback",
-        "Conducted competitor analysis and user feedback sessions to drive designs",
-        "Integrated analytics tools into applications to track usage patterns",
-        "Defined UX goals in alignment with project requirements and business needs",
-        "Standardized branding through consistent visual style guides and design principles",
-      ],
-    },
-    {
-      role: "Frontend Developer & Product Designer",
-      company: "African Unity Limited, Accra - Ghana",
-      period: "March 2021 - December 2023",
-      achievements: [
-        "Integrated third-party APIs to enhance web application functionality",
-        "Designed engaging visuals and typography to attract user attention",
-        "Ensured compliance with WCAG guidelines for accessible user interfaces",
-        "Optimized website load times through server-side rendering, improving performance by 40%",
-        "Managed website hosting and go-live processes for multiple client projects",
-      ],
-    },
-    {
-      role: "Frontend Developer & Product Designer",
-      company: "African Limited, Accra - Ghana",
-      period: "March 2021 - December 2023",
-      achievements: [
-        "Implemented security measures to safeguard sensitive data in user interfaces",
-        "Created interactive prototypes and user flows that improved product usability",
-        "Automated testing processes to enhance code quality and deployment reliability",
-        "Collaborated with systems analysts, engineers, and programmers to resolve complex software issues",
-        "Mentored junior developers, fostering team growth and skill development",
-      ],
-    },
-  ];
-
-  const education = [
-    {
-      school: "University of Ghana",
-      degree: "Masters of Science - Computer Science",
-      period: "2017 - 2019",
-      description:
-        "Deep dive in web development with lectures in web technologies, media ethics, agile project methods, data visualization and other hands-on projects",
-    },
-    {
-      school: "University of Ghana",
-      degree: "Bachelor of Science - Computer Science",
-      period: "2014 - 2017",
-      description:
-        "Deep dive in web development with lectures in web technologies, media ethics, agile project methods, data visualization and other hands-on projects",
     },
   ];
 
@@ -187,13 +127,6 @@ export const About = (): JSX.Element => {
             ))}
           </div>
         </section>
-        {/* <div className="absolute w-[313px] h-[338px] top-[155px] left-[205px] opacity-5">
-                <img
-                  className="absolute w-[212px] h-72 top-0 left-0"
-                  alt="Hubtel icon"
-                  src={project.background_icon}
-                />
-              </div> */}
         {/* Experience Section */}
         <section className="flex flex-col gap-4 relative self-stretch">
           <h2 className="[font-family:'Rethink_Sans',Helvetica] font-medium text-neutral-950 text-lg">
@@ -202,13 +135,13 @@ export const About = (): JSX.Element => {
           {experiences.map((exp, index) => (
             <div
               key={index}
-              className="flex flex-col gap-4 p-6 bg-[#F7F7F7] rounded-3xl border border-[#EFEFEF]"
+              className="flex flex-col gap-6 p-6 bg-[#F7F7F7] rounded-3xl border border-[#EFEFEF]"
             >
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-3">
                 <h3 className="[font-family:'Rethink_Sans',Helvetica] font-semibold text-neutral-950 text-base">
                   {exp.role}
                 </h3>
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-2">
                   <span className="[font-family:'Rethink_Sans',Helvetica] font-normal text-neutral-700 text-sm">
                     {exp.company}
                   </span>
@@ -217,16 +150,17 @@ export const About = (): JSX.Element => {
                   </span>
                 </div>
               </div>
-              <ul className="flex flex-col gap-2">
-                {exp.achievements.map((achievement, i) => (
-                  <li key={i} className="flex items-start gap-2">
-                    <div className="w-1.5 h-1.5 mt-1.5 bg-[#ff6903] rounded-full" />
-                    <span className="[font-family:'Rethink_Sans',Helvetica] font-normal text-neutral-700 text-sm flex-1">
-                      {achievement}
-                    </span>
-                  </li>
-                ))}
-              </ul>
+              <p className="text-neutral-700 text-sm leading-relaxed [font-family:'Rethink_Sans',Helvetica] ">
+                {typeof exp.works === "object" && exp.works !== null ? (
+                  <ul className="list-disc  pl-6 space-y-4 [&>li::marker]:text-[#ff6903] ">
+                    {Object.entries(exp.works).map(([key, value]) => (
+                      <li key={key}>{String(value)}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  exp.works
+                )}
+              </p>
             </div>
           ))}
         </section>

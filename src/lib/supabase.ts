@@ -48,4 +48,44 @@ export const fetchHighlights = async () => {
   }
 };
 
+export const fetchExperiences = async () => {
+  try {
+    const { data, error } = await supabase.from("experiences").select("*");
+
+    if (error) {
+      console.error("Supabase error details:", error);
+      throw error;
+    }
+
+    console.log("Fetched experiences data:", data); // Debug log
+    return data || []; // Ensure we always return an array
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching experiences:", error.message);
+    } else {
+      console.error("Error fetching experiences:", error);
+    }
+    return [];
+  }
+};
+export const fetchEducation = async () => {
+  try {
+    const { data, error } = await supabase.from("education").select("*");
+
+    if (error) {
+      console.error("Supabase error details:", error);
+      throw error;
+    }
+
+    console.log("Fetched education data:", data); // Debug log
+    return data || []; // Ensure we always return an array
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching education:", error.message);
+    } else {
+      console.error("Error fetching education:", error);
+    }
+    return [];
+  }
+};
 export default supabase;
