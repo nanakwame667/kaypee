@@ -9,14 +9,17 @@ import {
   ChevronRightIcon,
 } from "lucide-react";
 
-import { fetchProjects } from "../../lib/supabase";
+import { fetchProjects, fetchHighlights } from "../../lib/supabase";
 
 export const Homepage = (): JSX.Element => {
   const [projects, setProjects] = useState<any[]>([]);
+  const [highlights, setHighlights] = useState<any[]>([]);
   useEffect(() => {
     fetchProjects().then(setProjects);
   }, []);
-
+  useEffect(() => {
+    fetchHighlights().then(setHighlights);
+  }, []);
   const navigate = useNavigate();
 
   const navigateToProject = (projectId: string) => {
@@ -181,10 +184,32 @@ export const Homepage = (): JSX.Element => {
             className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory  scrollbar-hide"
           >
             {/* Carousel Items */}
-            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
-            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
-            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
-            <div className="flex-shrink-0 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start"></div>
+            {highlights.map((highlight, index) => (
+              <div
+                key={index}
+                style={{ backgroundColor: highlight.bg_color }}
+                className="flex-shrink-0 flex-col pl-8 pt-8 space-y-4 w-[350px] h-[400px] bg-[#F7F7F7] rounded-3xl snap-start cursor-pointer"
+                onClick={() => window.open(`${highlight.link}`, "_blank")}
+              >
+                <h3
+                  className="font-semibold text-neutral-950 text-lg"
+                  style={{ color: highlight.title_color }}
+                >
+                  {highlight.project_title}
+                </h3>
+                <p
+                  className="font-normal text-neutral-500 text-base"
+                  style={{ color: highlight.tool_color }}
+                >
+                  {highlight.project_tool}
+                </p>
+                <img
+                  className=" "
+                  alt="Logo Hubtel"
+                  src={`https://mljogeehlbrneouyezvt.supabase.co/storage/v1/object/public/project-images/${highlight.image}`}
+                />
+              </div>
+            ))}
           </div>
         </div>
       </div>

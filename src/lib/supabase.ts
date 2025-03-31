@@ -27,4 +27,25 @@ export const fetchProjects = async () => {
   }
 };
 
+export const fetchHighlights = async () => {
+  try {
+    const { data, error } = await supabase.from("highlights").select("*");
+
+    if (error) {
+      console.error("Supabase error details:", error);
+      throw error;
+    }
+
+    console.log("Fetched highlights data:", data); // Debug log
+    return data || []; // Ensure we always return an array
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("Error fetching highlights:", error.message);
+    } else {
+      console.error("Error fetching highlights:", error);
+    }
+    return [];
+  }
+};
+
 export default supabase;
